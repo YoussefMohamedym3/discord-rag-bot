@@ -1,0 +1,21 @@
+
+# Ignore nested secret env files
+docker/env/.env.app
+docker/env/.env.chromadb
+docker/env/.env.discord
+
+# General ignores
+__pycache__/
+*.pyc
+.DS_Store
+.env
+discord-rag-bot_report.txt
+
+# Ignore data files but keep directories
+data/raw/*
+!data/raw/.gitkeep
+data/silver/*
+!data/silver/.gitkeep
+
+# Ignore generated reports
+debug_reports/*.csv

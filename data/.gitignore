@@ -1,0 +1,7 @@
+# Track the directories themselves
+!data/raw/
+!data/silver/
+
+# But ignore ALL files within them
+data/raw/*
+data/silver/*

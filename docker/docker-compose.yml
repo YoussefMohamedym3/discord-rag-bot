@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # 1. Vector Database
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chroma_db
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist data locally so we don't lose embeddings on restart
+      - chroma_data:/chroma/chroma
+    env_file:
+      - ./env/.env.chromadb
+    networks:
+      - rag_network
+
+  # 2. LLM Inference Server (vLLM)
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: vllm_server
+    runtime: nvidia
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
+    ports:
+      - "8001:8000" # Mapped to host 8001 to avoid conflict with Chroma
+    volumes:
+      # Map your local HuggingFace cache to avoid re-downloading models
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    # Optimized settings for my gpu (AWQ quantization)
+    command: >
+      --model hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4
+      --quantization awq
+      --dtype auto
+      --gpu-memory-utilization 0.80
+      --max-model-len 10240
+    networks:
+      - rag_network
+
+  # 3. Main Application (The RAG Bot)
+  discord-bot:
+    build:
+      context: .. # Points to the root project folder to access 'src'
+      dockerfile: docker/discord-bot/Dockerfile
+    container_name: rag_bot
+    volumes:
+      - ../src:/app/src # Hot-reload code changes
+      - ../data:/app/data # Access to your raw/silver data
+    env_file:
+      - ./env/.env.app
+      - ./env/.env.discord
+    depends_on:
+      - chromadb
+      - vllm
+    networks:
+      - rag_network
+    # Keep the container running or run your main script
+    command: python src/main.py
+
+volumes:
+  chroma_data:
+    driver: local
+
+networks:
+  rag_network:
+    driver: bridge

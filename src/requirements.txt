@@ -1,0 +1,7 @@
+llama-index-core
+llama-index-embeddings-huggingface
+llama-index-vector-stores-chroma
+chromadb
+pandas
+python-dotenv
+rank_bm25
