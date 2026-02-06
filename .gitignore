@@ -19,3 +19,4 @@ data/silver/*
 
 # Ignore generated reports
 debug_reports/*.csv
+storage/*.pkl
