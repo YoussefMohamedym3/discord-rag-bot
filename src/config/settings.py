@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from llama_index.core import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.llms.openai_like import OpenAILike
 
 # Load environment variables (from .env files)
 load_dotenv()
@@ -27,6 +28,28 @@ class AppSettings:
     HYBRID_VECTOR_WEIGHT = 5.0
     HYBRID_BM25_WEIGHT = 3.0
     HYBRID_RECENCY_WEIGHT = 0.2
+
+    # Storage Paths
+    STORAGE_DIR = "storage"
+    NODES_INDEX_PATH = os.path.join(STORAGE_DIR, "silver_nodes.pkl")
+
+    # Point to your vLLM container
+    LLM_API_BASE = "http://localhost:8001/v1"
+    LLM_MODEL = "hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4"
+    LLM_API_KEY = "EMPTY"
+
+    @staticmethod
+    def get_llm():
+        # CHANGED: Use OpenAILike here
+        return OpenAILike(
+            model=AppSettings.LLM_MODEL,
+            api_base=AppSettings.LLM_API_BASE,
+            api_key=AppSettings.LLM_API_KEY,
+            is_chat_model=True,  # Explicitly tell it this is a chat model
+            temperature=0.1,
+            max_tokens=512,
+            timeout=300,  # Good to have a timeout for local LLMs
+        )
 
 
 def setup_global_settings():
