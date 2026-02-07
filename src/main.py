@@ -42,11 +42,9 @@ def main():
     elif command == "build-bm25":
         build_bm25_index()
 
-    # --- NEW: CHAT COMMAND (Interactive Mode) ---
     elif command == "chat":
         print("🚀 Initializing Chatbot with Memory... (Type 'exit' to quit)")
         try:
-            # Initialize the RAG Service (loads LLM + Retriever)
             bot_service = RAGService()
             print("✅ Bot Ready! Ask a question.")
 
@@ -56,19 +54,28 @@ def main():
                     print("Goodbye!")
                     break
 
-                # Get response from the service
-                response = bot_service.chat_engine.chat(
-                    user_input
-                )  # Access engine directly to get objects
-                print(f"🤖 Bot: {response}")
+                print("🤖 Bot: ", end="", flush=True)  # Prepare the console line
 
-                # NEW: Print Sources used by the LLM
-                if response.source_nodes:
+                # 1. CALL THE STREAM METHOD
+                streaming_response = bot_service.stream_chat(user_input)
+
+                # 2. ITERATE AND PRINT TOKENS INSTANTLY
+                # response_gen yields text chunks as they are generated
+                for token in streaming_response.response_gen:
+                    print(token, end="", flush=True)
+
+                # Print a new line at the end
+                print("\n")
+
+                # 3. PRINT SOURCES (Still works!)
+                # LlamaIndex populates source_nodes after the stream finishes
+                if streaming_response.source_nodes:
                     print("\n📚 Sources Used:")
-                    for node in response.source_nodes:
-                        print(
-                            f"   - {node.metadata.get('file_name')} (Score: {node.score:.2f})"
-                        )
+                    for node in streaming_response.source_nodes:
+                        # Safety check in case metadata is missing
+                        fname = node.metadata.get("file_name", "Unknown")
+                        score = node.score if node.score else 0.0
+                        print(f"   - {fname} (Score: {score:.2f})")
 
         except Exception as e:
             print(f"Error starting chat: {e}")
