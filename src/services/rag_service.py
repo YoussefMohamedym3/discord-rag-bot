@@ -39,12 +39,21 @@ class RAGService:
             verbose=True,
         )
 
-    def chat(self, user_query: str) -> str:
+    # def chat(self, user_query: str) -> str:
+    #     """
+    #     Processes a user query with history and returns the response.
+    #     """
+    #     response = self.chat_engine.chat(user_query)
+    #     return str(response)
+
+    # In src/services/rag_service.py
+
+    def chat(self, user_query: str):
         """
-        Processes a user query with history and returns the response.
+        Processes a user query with history and returns the FULL Response object.
+        Do NOT wrap this in str(), or you lose the source nodes!
         """
-        response = self.chat_engine.chat(user_query)
-        return str(response)
+        return self.chat_engine.chat(user_query)
 
     def reset_history(self):
         self.memory.reset()

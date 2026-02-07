@@ -1,9 +1,13 @@
 import os
 import sys
 
-# Add the project root to python path so we can import 'src'
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import phoenix as px
 
+# 👇 CHANGE 1: Import the register function
+from phoenix.otel import register
+
+# (Keep your other imports like AppSettings, etc.)
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.config.settings import AppSettings
 from src.indexing.bm25_indexer import build_bm25_index
 from src.indexing.chroma_indexer import ingest_to_chroma
@@ -16,6 +20,17 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: python src/main.py [clean|ingest|build-bm25|search|chat]")
         return
+
+    # 👇 CHANGE 2: Use the register() pattern from your docs
+    # This automatically connects LlamaIndex to the Phoenix UI
+    tracer_provider = register(
+        project_name="discord-rag-bot",  # We give it a specific name
+        auto_instrument=True,  # This finds LlamaIndex automatically
+    )
+
+    # Launch the UI (keeping your persistent storage setting)
+    session = px.launch_app(use_temp_dir=False)
+    print(f"🚀 Phoenix Tracing running at: {session.url}")
 
     command = sys.argv[1]
 
