@@ -27,8 +27,6 @@ class AppSettings:
 
     HYBRID_VECTOR_WEIGHT = 5.0
     HYBRID_BM25_WEIGHT = 3.0
-    HYBRID_RECENCY_WEIGHT = 0.2
-
     # Storage Paths
     STORAGE_DIR = "storage"
     NODES_INDEX_PATH = os.path.join(STORAGE_DIR, "silver_nodes.pkl")
@@ -47,8 +45,8 @@ class AppSettings:
             api_key=AppSettings.LLM_API_KEY,
             is_chat_model=True,  # Explicitly tell it this is a chat model
             temperature=0.1,
-            max_tokens=512,
-            timeout=300,  # Good to have a timeout for local LLMs
+            max_tokens=2048,
+            timeout=300,
         )
 
 

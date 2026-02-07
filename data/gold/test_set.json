@@ -1,0 +1,62 @@
+[
+  {
+    "id":1,
+    "question": "I just joined, what is the very first thing I should do?",
+    "answer": "You must watch the welcome and onboarding video by Dr. Nancy Li to understand how to be successful. After that, join the Developer Discord server, update your profile with your full name and LinkedIn URL, and introduce yourself in the #networking channel. \n\nWelcome Video: https://youtu.be/3yudcDTRjFs",
+    "category": "Onboarding"
+  },
+  {
+    "id":2,
+    "question": "I am an engineer, what am I supposed to do in Week 1?",
+    "answer": "For Week 1, you need to study the AI knowledge materials and choose one of the two assignments: the 'Job Assistant Agent' or the 'Discord RAG FAQ Chatbot'. You should also join the Office Hours on Saturday to discuss your thoughts. \n\nEngineers’ Training Playlist: https://www.youtube.com/playlist?list=PLr7J0CdhrYUvc-pfs9j6sdrjV6iYW-V2q",
+    "category": "Week 1 Tasks"
+  },
+  {
+    "id":3,
+    "question": "Where can I find the training videos for engineers?",
+    "answer": "You can find the training videos in the Engineers’ Training Youtube Playlist here: https://www.youtube.com/playlist?list=PLr7J0CdhrYUvc-pfs9j6sdrjV6iYW-V2q",
+    "category": "Resources"
+  },
+  {
+    "id":4,
+    "question": "How do I submit my code for the Week 3 assignment?",
+    "answer": "You need to submit your code and a video walkthrough of your code logic by filling out the Google Form provided in the Week 3 agenda. \n\nSubmission Form: https://forms.gle/VyFF3UV49jGjTEQh7",
+    "category": "Submission"
+  },
+  {
+    "id":5,
+    "question": "I need help with CPT or a visa letter, who do I ask?",
+    "answer": "If you need visa sponsorship or updates to your offer letter for CPT/OPT, please reply to your offer email with your specific needs. You must also post your request in the #visa-sponsorship channel on Discord so the team can track it.",
+    "category": "Admin/Visa"
+  },
+  {
+    "id":6,
+    "question": "What tech stack are we allowed to use?",
+    "answer": "There is no strict preference for the technology stack, but most AI work typically uses Python. You are encouraged to use APIs and cloud services. For the Discord bot specifically, you might use Discord.js (Node.js) or Python libraries.",
+    "category": "Technical"
+  },
+  {
+    "id":7,
+    "question": "When are the office hours?",
+    "answer": "Office hours are generally held on Saturdays. Please check the Discord announcements for the exact dates and times, as they may vary. Use this time to discuss roadblocks rather than waiting for the session to start coding.",
+    "category": "Schedule"
+  },
+  {
+    "id":8,
+    "question": "What is the Front End engineer supposed to do for the Discord bot?",
+    "answer": "In Phase 1, the Frontend Engineer should research AI UX, specifically how users interact with bots (like loading states and feedback mechanisms). You need to design a simple UX flow for the Discord bot and decide how to collect user feedback.",
+    "category": "Role Specific"
+  },
+  {
+    "id":9,
+    "question": "I am a Backend engineer, do I need to use Docker?",
+    "answer": "It is highly recommended. You should research containerization and create a Dockerfile for your backend application to ensure it can be deployed easily. You should also look into logging and observability.",
+    "category": "Role Specific"
+  },
+  {
+    "id":10,
+    "question": "How do I get a team match?",
+    "answer": "Team matching happens in two sessions. Week 2 is for Designers and PMs. Week 4 is for Engineers. You will attend a Pitch Day where PMs present their ideas, and then you will fill out a Google Form to rank your top choices.",
+    "category": "Team Matching"
+  }
+]
