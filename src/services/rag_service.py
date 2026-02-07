@@ -55,5 +55,12 @@ class RAGService:
         """
         return self.chat_engine.chat(user_query)
 
+    def stream_chat(self, user_query: str):
+        """
+        Returns a StreamingAgentChatResponse object.
+        You iterate over this object to get tokens one by one.
+        """
+        return self.chat_engine.stream_chat(user_query)
+
     def reset_history(self):
         self.memory.reset()
