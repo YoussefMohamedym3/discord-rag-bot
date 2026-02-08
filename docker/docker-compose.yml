@@ -62,8 +62,9 @@ services:
       - vllm
     networks:
       - rag_network
-    # Keep the container running or run your main script
-    command: python src/main.py
+    ports:
+      - "8080:8080"
+    command: python src/main.py serve
 
 volumes:
   chroma_data:
