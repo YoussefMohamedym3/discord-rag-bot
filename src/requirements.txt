@@ -10,3 +10,6 @@ arize-phoenix
 openinference-instrumentation-llama-index
 arize-phoenix-otel
 llama-index-llms-gemini
+fastapi
+uvicorn
+pydantic

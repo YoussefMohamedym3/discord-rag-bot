@@ -8,17 +8,23 @@ from phoenix.otel import register
 
 # (Keep your other imports like AppSettings, etc.)
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import uvicorn
+from fastapi import FastAPI
+
 from src.config.settings import AppSettings
 from src.indexing.bm25_indexer import build_bm25_index
 from src.indexing.chroma_indexer import ingest_to_chroma
 from src.preprocessing.parsing import run_cleaning_pipeline
 from src.retrieval.retriever import HybridRAGRetriever
+from src.routes.rag import router as rag_router
 from src.services.rag_service import RAGService
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python src/main.py [clean|ingest|build-bm25|search|chat]")
+        print(
+            "Usage: python src/main.py [clean|ingest|build-bm25|search|chat|serve]"
+        )  # Added 'serve'
         return
 
     # 👇 CHANGE 2: Use the register() pattern from your docs
@@ -96,6 +102,23 @@ def main():
             print(f"\n--- Result {i} (Score: {node.score:.4f}) ---")
             print(f"📄 Source: {source_file}")
             print(node.text[:200] + "...")
+
+    elif command == "serve":
+        print("🌐 Starting API Server...")
+
+        # Define the FastAPI App
+        app = FastAPI(
+            title="Discord RAG Bot API",
+            description="API for querying the RAG system",
+            version="1.0.0",
+        )
+
+        # Register the router
+        app.include_router(rag_router, prefix="/api")
+
+        # Run with Uvicorn
+        # Host 0.0.0.0 is crucial for Docker visibility
+        uvicorn.run(app, host="0.0.0.0", port=8081)
 
     else:
         print(f"Unknown command: {command}")
